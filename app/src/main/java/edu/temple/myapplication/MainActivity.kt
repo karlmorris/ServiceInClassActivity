@@ -1,6 +1,7 @@
 package edu.temple.myapplication
 
 import android.content.ComponentName
+import android.content.Intent
 import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,7 +29,11 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        //
+        bindService(
+            Intent(this, TimerService::class.java),
+            serviceConnection,
+            BIND_AUTO_CREATE
+        )
 
         findViewById<Button>(R.id.startButton).setOnClickListener {
 
