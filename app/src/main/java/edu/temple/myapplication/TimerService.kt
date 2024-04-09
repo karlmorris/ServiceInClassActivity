@@ -5,11 +5,14 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import android.os.Handler
 
 @Suppress("ControlFlowWithEmptyBody")
 class TimerService : Service() {
 
     private var isRunning = false
+
+    private var handler: Handler? = null
 
     lateinit var t: TimerThread
 
@@ -18,12 +21,12 @@ class TimerService : Service() {
     inner class TimerBinder : Binder() {
 
         // Check if Timer is already running
-        var isRunning: Boolean
+        private var isRunning: Boolean
             get() = this@TimerService.isRunning
             set(value) {this@TimerService.isRunning = value}
 
         // Start a new timer
-        fun start(startValue: Int){
+        fun start(startValue: Int) {
 
             if (!paused) {
                 if (!isRunning) {
@@ -78,6 +81,7 @@ class TimerService : Service() {
             try {
                 for (i in startValue downTo 1)  {
                     Log.d("Countdown", i.toString())
+                    handler?.sendEmptyMessage(i)
 
                         while (paused);
                         sleep(1000)
