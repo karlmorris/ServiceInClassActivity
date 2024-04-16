@@ -6,6 +6,7 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.view.Menu
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.stopButton).setOnClickListener {
             timerBinder?.stop()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        //
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onDestroy() {
