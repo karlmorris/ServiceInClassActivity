@@ -7,29 +7,29 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/startButton"
+        android:id="@+id/actionStart"
         android:layout_width="100dp"
         android:layout_height="53dp"
         android:layout_marginBottom="56dp"
         android:backgroundTint="#00FF00"
         android:text="Start"
-        app:layout_constraintBottom_toTopOf="@+id/stopButton"
-        app:layout_constraintEnd_toStartOf="@+id/stopButton"
+        app:layout_constraintBottom_toTopOf="@+id/actionStop"
+        app:layout_constraintEnd_toStartOf="@+id/actionStop"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/pauseButton"
+        android:id="@+id/actionPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:text="Pause"
-        app:layout_constraintBottom_toTopOf="@+id/stopButton"
+        app:layout_constraintBottom_toTopOf="@+id/actionStop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.338"
-        app:layout_constraintStart_toEndOf="@+id/stopButton" />
+        app:layout_constraintStart_toEndOf="@+id/actionStop" />
 
     <Button
-        android:id="@+id/stopButton"
+        android:id="@+id/actionStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="324dp"
