@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/startButton"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="Start"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/pauseButton"
+        android:icon="@android:drawable/ic_media_pause"
+        android:title="Pause"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/stopButton"
+        android:icon="@android:drawable/btn_dialog"
+        android:title="Stop"
+        app:showAsAction="ifRoom" />
 </menu>
