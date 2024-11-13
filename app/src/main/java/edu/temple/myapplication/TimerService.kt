@@ -12,6 +12,8 @@ class TimerService : Service() {
 
     private var isRunning = false
 
+    private var handler: Handler? = null
+
     lateinit var t: TimerThread
 
     private var paused = false
@@ -24,7 +26,15 @@ class TimerService : Service() {
             set(value) {this@TimerService.isRunning = value}
 
         // Start a new timer
+
         fun start(startValue: Int){
+            start(startValue, null)
+        }
+        fun start(startValue: Int, timerHandler: Handler?){
+
+            timerHandler?.run {
+                handler = this
+            }
 
             if (!paused) {
                 if (!isRunning) {
@@ -79,9 +89,10 @@ class TimerService : Service() {
             try {
                 for (i in startValue downTo 1)  {
                     Log.d("Countdown", i.toString())
+                    handler?.sendEmptyMessage(i)
 
-                        while (paused);
-                        sleep(1000)
+                    while (paused);
+                    sleep(1000)
 
                 }
                 isRunning = false
