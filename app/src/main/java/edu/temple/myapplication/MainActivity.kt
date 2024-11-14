@@ -9,7 +9,11 @@ import android.os.IBinder
 import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,16 +22,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     var timerBinder: TimerService.TimerBinder? = null
+lateinit var counterDisplay :TextView
 
     val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
             timerBinder = p1 as TimerService.TimerBinder
+
         }
 
         override fun onServiceDisconnected(p0: ComponentName?) {
             timerBinder = null
+
         }
     }
+
+    val timerHandler = Handler(Looper.getMainLooper()){
+        counterDisplay.text = it.what.toString()
+        true
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,17 +53,32 @@ class MainActivity : AppCompatActivity() {
             BIND_AUTO_CREATE
         )
 
+        val counterText = findViewById<TextView>(R.id.countDisplay)
+        val observer = Observer<Int> { newValue ->
+            counterText.text = "$newValue"
+        }
+
+        // Observe the LiveData from TimerService
+        timerBinder?.counter?.observe(this, observer)
+
+        val btnText = findViewById<Button>(R.id.startButton)
         val numberEditText = findViewById<EditText>(R.id.editTextText)
 
         findViewById<Button>(R.id.startButton).setOnClickListener {
-            val inputText = numberEditText.text.toString()  // Get the text from the EditText
-            val number = inputText.toIntOrNull()  // Convert the text to an integer (or null if not valid)
+            val inputText = numberEditText.text.toString()
+            val number = inputText.toIntOrNull()
 
             if (number != null) {
-                timerBinder?.start(number, handler)  // Pass the integer to the service
-            } else {
-                // Handle invalid input
-                numberEditText.error = "Please enter a valid number"
+                if (timerBinder?.isRunning == false) {
+                    timerBinder?.start(number, handler)
+                    btnText.text = "Pause"
+                } else {
+                    // If the timer is running, pause it and change the button to "Start"
+                    timerBinder?.pause()
+                    btnText.text = "Start"
+                }
+
+
             }
         }
 

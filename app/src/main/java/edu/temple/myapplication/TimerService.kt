@@ -6,6 +6,8 @@ import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 @Suppress("ControlFlowWithEmptyBody")
 class TimerService : Service() {
@@ -17,6 +19,9 @@ class TimerService : Service() {
     lateinit var t: TimerThread
 
     private var paused = false
+    private val _counter = MutableLiveData<Int>().apply { value = 0 }
+    val counter: LiveData<Int> get() = _counter
+
 
     inner class TimerBinder : Binder() {
 
@@ -90,6 +95,9 @@ class TimerService : Service() {
                 for (i in startValue downTo 1)  {
                     Log.d("Countdown", i.toString())
                     handler?.sendEmptyMessage(i)
+
+                    _counter.postValue(i)
+
 
                     while (paused);
                     sleep(1000)
